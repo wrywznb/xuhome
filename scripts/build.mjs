@@ -416,12 +416,14 @@ function loadPages() {
 
 function renderPage(page) {
   const content = `<div class="wrap wrap-narrow">
+<article class="page-panel">
 <header class="page-header">
   ${page.kicker ? `<p class="page-kicker">${esc(page.kicker)}</p>` : ''}
   <h1 class="page-title">${esc(page.title)}</h1>
   ${page.description ? `<p class="page-desc">${esc(page.description)}</p>` : ''}
 </header>
 <div class="prose">${page.html}</div>
+</article>
 </div>`;
 
   return layout({
@@ -432,6 +434,8 @@ function renderPage(page) {
     content,
     activeNav: page.route,
     canonical: absUrl(page.route),
+    // 给每个独立页面一个标识，方便只用 CSS 改这一页（如 .page-about）
+    bodyClass: `page-${page.route.replace(/\.html$/, '')}`,
   });
 }
 

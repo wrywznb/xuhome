@@ -8,12 +8,22 @@
   /* 纸张与墨水 */
   --bg: #f2fbf4;
   --bg-dot: rgba(16, 185, 129, 0.13);
-  --bg-scrim: rgba(242, 251, 244, 0.2);
+  --bg-scrim: rgba(242, 251, 244, 0.45);
   --surface: rgba(255, 255, 255, 0.6);
   --surface-soft: #8bccdf;
-  --ink: #0f2d4a;
+  --ink: #3d7cb1;
   --ink-soft: #33506b;
   --muted: #6b8299;
+  /* 关于页正文颜色 */
+  --about-ink: #010509;
+  /* 文章页正文颜色（默认跟随全站 --ink） */
+  --post-ink: #1f2a37;
+
+  /* 全站正文（文章、关于页）的字号 / 粗细 / 行距 / 字体 */
+  --prose-size: 1.15rem;   /* 1rem = 16px，1.03rem ≈ 16.5px */
+  --prose-weight: 700;     /* 400 正常 / 500 微粗 / 600 明显 / 700 加粗 */
+  --prose-leading: 1.9;    /* 行高，数字越大越松 */
+  --prose-font: "Kaiti SC", "KaiTi", "STKaiti", serif;  /* 正文用哪种字体 */
 
   /* 主色：天蓝 */
   --blue: #0284c7;
@@ -32,7 +42,7 @@
   --shadow-deep: #7dd3fc;
 
   --font-display: "Fredoka", "Nunito", "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
-  --font-body: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei",
+  --font-body: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "KaiTi",
     system-ui, sans-serif;
   --font-mono: "JetBrains Mono", "Cascadia Code", Consolas, monospace;
 
@@ -53,6 +63,7 @@
   --ink: #e8f1fa;
   --ink-soft: #b9cde0;
   --muted: #8098ad;
+  --about-ink: #e8f1fa;
 
   --blue: #38bdf8;
   --blue-deep: #7dd3fc;
@@ -102,6 +113,36 @@ body {
 /* 有背景图时关掉点阵，避免画面太花；图片本身由 assets/background.css 提供 */
 body.has-bg {
   background-image: none;
+}
+
+/* ------------------------------------------------------------------ 文章页：牛皮纸背景 */
+
+body.post-page,
+body.post-page.has-bg {
+  /* 卡片换成不透明奶白，在纸面上更干净 */
+  --surface: #fdf8ee;
+  --surface-soft: #f7ecd8;
+  background-color: #f2e2c4;
+  /* 两层细颗粒，模拟纸张纤维 */
+  background-image:
+    radial-gradient(rgba(120, 85, 40, 0.07) 1px, transparent 1.1px),
+    radial-gradient(rgba(255, 255, 255, 0.6) 1px, transparent 1.1px);
+  background-size: 4px 4px, 13px 13px;
+  background-position: 0 0, 3px 4px;
+  background-repeat: repeat, repeat;
+  background-attachment: scroll;
+}
+
+[data-theme="dark"] body.post-page,
+[data-theme="dark"] body.post-page.has-bg {
+  --surface: #2a2119;
+  --surface-soft: #33291f;
+  background-color: #241d15;
+  background-image:
+    radial-gradient(rgba(255, 220, 170, 0.05) 1px, transparent 1.1px),
+    radial-gradient(rgba(0, 0, 0, 0.25) 1px, transparent 1.1px);
+  background-size: 6px 6px, 13px 13px;
+  background-position: 0 0, 3px 4px;
 }
 
 img,
@@ -989,9 +1030,37 @@ main {
 
 .prose {
   color: var(--ink);
-  font-size: 1.03rem;
-  line-height: 1.9;
+  font-family: var(--prose-font);
+  font-size: var(--prose-size);
+  font-weight: var(--prose-weight);
+  line-height: var(--prose-leading);
   overflow-wrap: break-word;
+}
+
+/* 关于页正文单独的颜色（改这里即可，浅色/深色各一个） */
+.page-about .prose {
+  color: var(--about-ink);
+}
+
+/* 文章页正文单独的颜色 */
+.post-page .prose {
+  color: var(--post-ink);
+}
+
+/* 独立页面（关于、友链…）整体包成一张卡片，背景图不会压住文字 */
+.page-panel {
+  margin: 44px 0 64px;
+  padding: 36px 40px 40px;
+  border: var(--border) solid var(--blue);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: 8px 8px 0 var(--shadow);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+}
+
+.page-panel .page-header {
+  padding: 0 0 22px;
 }
 
 .prose > :first-child {
@@ -1298,6 +1367,11 @@ main {
   grid-template-columns: 1fr 1fr;
   gap: 16px;
   margin: 30px 0 10px;
+}
+
+/* 上一篇、下一篇都没有时，整块隐藏，不留两个空框 */
+.post-nav:not(:has(a)) {
+  display: none;
 }
 
 .post-nav-item {
@@ -1780,8 +1854,8 @@ main {
   }
 
   .prose {
-    font-size: 0.98rem;
-    line-height: 1.85;
+    font-size: calc(var(--prose-size) - 0.05rem);
+    line-height: calc(var(--prose-leading) - 0.05);
   }
 
   .post-card-title {
