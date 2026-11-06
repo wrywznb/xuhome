@@ -546,6 +546,19 @@ for (const file of ['styles.css', 'main.js']) {
   const src = path.join(THEME_DIR, file);
   if (fs.existsSync(src)) write(`assets/${file}`, fs.readFileSync(src));
 }
+
+// 背景图：单独生成一个样式文件，url 相对 assets/ 解析，子目录部署也不会失效
+const backgroundSource = String(site.background || '').trim();
+if (backgroundSource) {
+  const bgPath = /^https?:\/\//i.test(backgroundSource)
+    ? backgroundSource
+    : `../${backgroundSource.replace(/^\//, '')}`;
+  write(
+    'assets/background.css',
+    `body.has-bg{background-image:linear-gradient(var(--bg-scrim),var(--bg-scrim)),url('${bgPath}');` +
+      `background-size:cover;background-position:center center;background-repeat:no-repeat;background-attachment:fixed}\n`
+  );
+}
 if (fs.existsSync(PUBLIC_DIR)) {
   for (const entry of fs.readdirSync(PUBLIC_DIR)) {
     const src = path.join(PUBLIC_DIR, entry);

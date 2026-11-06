@@ -413,7 +413,7 @@ async function main() {
     console.log(`\n  监听中… 修改内容会自动重建，刷新浏览器即可。\n`);
   });
 
-  const dirs = ['content', 'theme', 'public'];
+  const dirs = ['content', 'theme', 'public', 'scripts'];
   let timer = null;
   for (const dir of dirs) {
     const target = path.join(ROOT, dir);

@@ -8,8 +8,9 @@
   /* 纸张与墨水 */
   --bg: #f2fbf4;
   --bg-dot: rgba(16, 185, 129, 0.13);
-  --surface: #ffffff;
-  --surface-soft: #f7f3ea;
+  --bg-scrim: rgba(242, 251, 244, 0.45);
+  --surface: rgba(255, 255, 255, 0.75);
+  --surface-soft: #8bccdf;
   --ink: #0f2d4a;
   --ink-soft: #33506b;
   --muted: #6b8299;
@@ -46,7 +47,8 @@
 [data-theme="dark"] {
   --bg: #0f161f;
   --bg-dot: rgba(56, 189, 248, 0.12);
-  --surface: #17212e;
+  --bg-scrim: rgba(15, 22, 31, 0.6);
+  --surface: rgba(23, 33, 46, 0.8);
   --surface-soft: #1d2836;
   --ink: #e8f1fa;
   --ink-soft: #b9cde0;
@@ -79,6 +81,7 @@ html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header-h) + 24px);
+  background-color: var(--bg);
 }
 
 body {
@@ -86,14 +89,19 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
   color: var(--ink);
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.75;
-  background-color: var(--bg);
   background-image: radial-gradient(circle, var(--bg-dot) 1.4px, transparent 1.4px);
   background-size: 24px 24px;
   -webkit-font-smoothing: antialiased;
+}
+
+/* 有背景图时关掉点阵，避免画面太花；图片本身由 assets/background.css 提供 */
+body.has-bg {
+  background-image: none;
 }
 
 img,
@@ -125,6 +133,24 @@ a:hover {
 
 main {
   flex: 1 0 auto;
+}
+
+/* 半透明磨砂面板：背景图能透出来，文字依旧清楚 */
+.site-header,
+.hero,
+.post-card,
+.archive-year,
+.toc,
+.search-box,
+.search-item,
+.post-nav-item,
+.related-card,
+.tag-chip,
+.theme-toggle,
+.btn-ghost,
+.site-footer {
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  backdrop-filter: blur(12px) saturate(140%);
 }
 
 .wrap {

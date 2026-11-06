@@ -61,6 +61,14 @@ export function layout({
   const css = rel(route, 'assets/styles.css');
   const js = rel(route, 'assets/main.js');
   const home = rel(route, 'index.html');
+
+  // 背景图：site.config.json 里的 background，构建时生成 assets/background.css
+  const hasBackground = Boolean(String(site.background || '').trim());
+  const bgUrl = hasBackground
+    ? /^https?:\/\//i.test(String(site.background))
+      ? String(site.background)
+      : rel(route, String(site.background).replace(/^\//, ''))
+    : '';
   const favicon = rel(route, 'favicon.svg');
   const canonicalTag = canonical ? `<link rel="canonical" href="${esc(canonical)}">` : '';
   const ogImage = site.ogImage
@@ -114,6 +122,8 @@ export function layout({
 <link rel="icon" href="${favicon}" type="image/svg+xml">
 <link rel="alternate" type="application/rss+xml" title="${esc(site.title)}" href="${rel(route, 'feed.xml')}">
 <link rel="stylesheet" href="${css}">
+${hasBackground ? `<link rel="stylesheet" href="${rel(route, 'assets/background.css')}">` : ''}
+${bgUrl ? `<link rel="preload" as="image" href="${bgUrl}">` : ''}
 <meta property="og:type" content="${esc(ogType)}">
 <meta property="og:site_name" content="${esc(site.title)}">
 <meta property="og:title" content="${esc(pageTitle)}">
@@ -125,7 +135,7 @@ ${canonicalTag}
 <script>${THEME_SCRIPT}</script>
 ${extraHead}
 </head>
-<body class="${esc(bodyClass)}">
+<body class="${esc(bodyClass)}${hasBackground ? ' has-bg' : ''}">
 <a class="skip-link" href="#main">${esc(T.skipLink)}</a>
 <div class="progress-bar" id="progress-bar" aria-hidden="true"></div>
 <header class="site-header">

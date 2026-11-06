@@ -190,6 +190,7 @@ console.log('代码块');
 | `footerNote` | 页脚的一句话 |
 | `logo` | 站点头像/图标，写 `images/logo.png`（图片放 `public/images/`） |
 | `ogImage` | 分享到微信/Twitter 时的封面图 |
+| `background` | 整站背景图，写 `images/bg.jpg`；留空则用纯色 + 点阵 |
 | `icp` | 备案号，留空则不显示 |
 | `nav` | 导航菜单，增删条目即可 |
 | `pageSize` | 首页每页显示几篇 |
@@ -250,6 +251,7 @@ postEnd: '— 完 —',              // ← 改成 '◆'
 | **「关于」页的头像** | 在 `content/pages/about.md` 里加一行 `![头像](/images/avatar.jpg)` |
 | **文章里的插图** | 图片放 `public/images/`，文章里写 `![说明文字](/images/photo.jpg)` |
 | **分享封面** | `site.config.json` 的 `"ogImage": "images/cover.png"` |
+| **整站背景图** | 图片放 `public/images/`，在 `site.config.json` 写 `"background": "images/bg.jpg"` |
 
 文章里的图片路径以 `/` 开头即可，构建时会自动转换成相对路径，所以部署在 `用户名.github.io/blog/` 这种子目录下也不会失效。
 
@@ -279,6 +281,26 @@ postEnd: '— 完 —',              // ← 改成 '◆'
 暗色模式的变量在 `[data-theme="dark"]` 里，改完记得两边都看一眼。想换字体又不想改 CSS，也可以直接改 `--font-display` / `--font-body` 这两行。
 
 > 字体说明：`Fredoka` / `Nunito` 没有随项目打包，装了就用、没装就自动回落到系统字体（Windows 上是微软雅黑），不会白屏也不会卡加载。想确保效果，可以下载字体放到 `public/fonts/` 再用 `@font-face` 引入。
+
+**换背景图 / 让面板透明**
+
+把图片放进 `public/images/`，然后在 `site.config.json` 里加一行：
+
+```json
+"background": "images/bg.jpg"
+```
+
+保存后整站背景会铺上这张图，同时：
+
+- 卡片、页头、目录、按钮这些面板会变成**半透明白 + 磨砂模糊**，能看见背景
+- 图片上会盖一层 45% 的白色蒙层（`--bg-scrim`），保证文字看得清
+
+嫌背景太淡就调低 `--bg-scrim` 的透明度（0.45 → 0.25 更清晰，0.7 更淡）；嫌文字不够清楚就调高。想彻底关掉背景图，把 `"background"` 改成 `""`。
+
+| 变量 | 默认值 | 作用 |
+| --- | --- | --- |
+| `--bg-scrim` | `rgba(242,251,244,.45)` | 盖在背景图上的蒙层，越大越淡 |
+| `--surface` | `rgba(255,255,255,.75)` | 面板底色，越小越透 |
 
 ### 5. 导航和页面
 
