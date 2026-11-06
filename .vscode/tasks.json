@@ -1,0 +1,30 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "启动本地预览",
+      "type": "shell",
+      "command": "node scripts/serve.mjs",
+      "isBackground": true,
+      "problemMatcher": [],
+      "group": { "kind": "build", "isDefault": true },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    },
+    {
+      "label": "构建网站",
+      "type": "shell",
+      "command": "node scripts/build.mjs",
+      "problemMatcher": []
+    },
+    {
+      "label": "检查坏链",
+      "type": "shell",
+      "command": "node scripts/check.mjs",
+      "problemMatcher": []
+    }
+  ]
+}
