@@ -8,7 +8,7 @@
   /* 纸张与墨水 */
   --bg: #f2fbf4;
   --bg-dot: rgba(16, 185, 129, 0.13);
-  --bg-scrim: rgba(242, 251, 244, 0.45);
+  --bg-scrim: rgba(242, 251, 244, 0.2);
   --surface: rgba(255, 255, 255, 0.6);
   --surface-soft: #8bccdf;
   --ink: #3d7cb1;
