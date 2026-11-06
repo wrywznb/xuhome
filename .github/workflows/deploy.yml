@@ -34,6 +34,9 @@ jobs:
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
+        with:
+          # 首次运行时自动开启 Pages（否则会报 "Get Pages site failed"）
+          enablement: true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
