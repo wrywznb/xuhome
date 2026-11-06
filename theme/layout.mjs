@@ -108,7 +108,7 @@ export function layout({
 <title>${esc(pageTitle)}</title>
 <meta name="description" content="${esc(desc)}">
 <meta name="author" content="${esc(site.author)}">
-<meta name="theme-color" content="#fdfbf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#f2fbf4" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f161f" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="${favicon}" type="image/svg+xml">
