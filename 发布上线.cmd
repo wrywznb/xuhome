@@ -8,25 +8,24 @@ echo.
 
 git add -A
 git diff --cached --quiet
-if %errorlevel%==0 (
-  echo   Nothing new to publish. No changes found.
-  echo.
-  pause
-  exit /b 0
-)
-
-git commit -m "update: %date% %time%"
 if errorlevel 1 (
-  echo.
-  echo   Commit failed. Please check the message above.
-  pause
-  exit /b 1
+  git commit -m "update: %date% %time%"
+  if errorlevel 1 (
+    echo.
+    echo   Commit failed. Please check the message above.
+    pause
+    exit /b 1
+  )
+) else (
+  echo   No new local changes to commit.
 )
 
+echo   Pushing...
 git push
 if errorlevel 1 (
   echo.
-  echo   Push failed. Check your network or GitHub login, then try again.
+  echo   Push failed, but your commit is safe on this computer.
+  echo   Check your proxy / network, then run this file again to retry.
   pause
   exit /b 1
 )
