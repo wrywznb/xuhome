@@ -8,41 +8,18 @@ summary: "leetcode第一题-两数之和-哈希表方法"
 # 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。 你可以假设每种输入只会对应一个答案，并且你不能使用两次相同的元素。 你可以按任意顺序返回答案。
 
 # 答案1：（暴力）
-class Solution（object）：
-      def twosum（self，nums,target）:
-          n = len(num)
-          for i in range(n):
-              for j in (i+1 , n): #范围是左闭右开
-                  if nums[i] + nums[j] == target: #判断相等是==
-                          return [i,j]
-          return []
-s=Solution1()
-#输入 nums：用户输入一串用逗号或空格分隔的数字
-raw = input("请输入 nums：")      # "2 7 11 15"
-parts = raw.split()               # ["2","7","11","15"]
-nums = list(map(int, parts))      # [2,7,11,15]
-#输入 target：单个整数
-target = int(input("请输入 target："))
-print(s.twoSum(nums, target))
+
+
+![image](/images/20261110-155901-image.png)
+
+
 
 # 答案2：（哈希表）
-class Solution2(object):
-    def twoSum(self, nums, target):
-        hash_map = {}  # 键: 元素值, 值: 元素下标
-        for i, num in enumerate(nums):
-            complement = target - num
-            if complement in hash_map:
-                return [hash_map[complement], i] #注意是return[]  hash[] 不要用成括号
-            hash_map[num] = i
-        return []
-a = Solution2()
-#输入 nums：用户输入一串用逗号或空格分隔的数字
-raw = input("请输入 nums：")  # "2 7 11 15"
-parts = raw.split()  # ["2","7","11","15"]
-nums = list(map(int, parts))  # [2,7,11,15]
-#输入 target：单个整数
-target = int(input("请输入 target："))
-print(a.twoSum(nums, target))
+
+
+![image](/images/20261110-155950-image.png)
+
+
 
 # 要点解析：
 # 1.enumerate 在遍历可迭代对象时，同时给出"下标"和"元素值"
