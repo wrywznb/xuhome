@@ -60,7 +60,7 @@ function loadPosts() {
       const raw = fs.readFileSync(path.join(POSTS_DIR, file), 'utf8');
       const { data, body } = parseFrontmatter(raw);
       const stat = fs.statSync(path.join(POSTS_DIR, file));
-      const rendered = renderMarkdown(body);
+      const rendered = renderMarkdown(body, { minLevel: 2 });
       const html = rewriteRootLinks(rendered.html, `posts/${slug}.html`);
       const text = plainText(html);
       const tags = (Array.isArray(data.tags) ? data.tags : data.tags ? [data.tags] : []).filter(Boolean);
@@ -402,7 +402,7 @@ function loadPages() {
     .map((file) => {
       const name = file.replace(/\.md$/, '');
       const { data, body } = parseFrontmatter(fs.readFileSync(path.join(PAGES_DIR, file), 'utf8'));
-      const rendered = renderMarkdown(body);
+      const rendered = renderMarkdown(body, { minLevel: 2 });
       const route = `${name}.html`;
       return {
         route,

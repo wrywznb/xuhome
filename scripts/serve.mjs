@@ -269,7 +269,7 @@ async function handleApi(req, res, urlPath, query) {
 
     if (urlPath === '/api/preview' && req.method === 'POST') {
       const payload = JSON.parse((await readBody(req)) || '{}');
-      const { html } = renderMarkdown(String(payload.markdown || ''));
+      const { html } = renderMarkdown(String(payload.markdown || ''), { minLevel: 2 });
       sendJson(res, 200, { html });
       return;
     }

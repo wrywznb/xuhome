@@ -53,17 +53,8 @@ function slugifyHeading(text, used) {
 }
 
 function joinLines(parts) {
-  let out = '';
-  for (const part of parts) {
-    if (!out) {
-      out = part;
-      continue;
-    }
-    const prev = out.slice(-1);
-    const next = part[0] || '';
-    out += CJK_RE.test(prev) && CJK_RE.test(next) ? part : `\n${part}`;
-  }
-  return out;
+  // 段落内的软换行保留为换行符，后面会在 inline() 里转成 <br>
+  return parts.join('\n');
 }
 
 function inline(raw, ctx) {
@@ -113,7 +104,8 @@ function inline(raw, ctx) {
   s = s.replace(/~~([^~\n]+)~~/g, '<del>$1</del>');
 
   // 收尾换行
-  s = s.replace(/ {2,}\n/g, '<br>\n');
+  // 单个换行也算换行（和在编辑器里敲回车一致），空行仍然分段
+  s = s.replace(/\n/g, '<br>');
 
   s = s.replace(/\u0000C(\d+)\u0000/g, (_, i) => codes[Number(i)]);
   return s;
@@ -227,7 +219,7 @@ function renderBlocks(lines, ctx) {
     // 标题
     const heading = line.match(HEADING_RE);
     if (heading) {
-      const level = heading[1].length;
+      const level = Math.min(6, Math.max(heading[1].length, ctx.minLevel || 1));
       const text = heading[2];
       const id = slugifyHeading(text, ctx.headingIds);
       ctx.headings.push({ level, text: stripInline(text), id });
@@ -321,8 +313,10 @@ function renderBlocks(lines, ctx) {
   return html;
 }
 
-export function renderMarkdown(src = '') {
-  const ctx = { headingIds: new Set(), headings: [] };
+export function renderMarkdown(src = '', options = {}) {
+  // minLevel：正文里允许的最小标题级别。页面标题已经是 h1，
+  // 所以正文默认从 h2 起（写 # 也会降级成 h2，避免一页两个 h1）。
+  const ctx = { headingIds: new Set(), headings: [], minLevel: options.minLevel || 1 };
   const lines = String(src).replace(/\r\n?/g, '\n').split('\n');
   const html = renderBlocks(lines, ctx);
   return { html, headings: ctx.headings };
