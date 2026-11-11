@@ -67,6 +67,7 @@ list(range(10, 0, -1))  # [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]  倒序
 ```
 sorted(iterable, key=None, reverse=False)
 ```
+返回的一定是list列表
 默认升序
 ```
 nums = [3, 1, 4, 1, 5, 9, 2]
