@@ -6,7 +6,9 @@ summary: "leetcode第二题-字母异位词分组-字典"
 ---
 
 # 给你一个字符串数组，请你将 字母异位词 组合在一起。可以按任意顺序返回结果列表。
-
+例如：
+输入: strs = ["eat", "tea", "tan", "ate", "nat", "bat"]
+输出: [["bat"],["nat","tan"],["ate","eat","tea"]]
 # 答案1：（运用字典）
 ```
 class Solution(object):
